@@ -1,0 +1,18 @@
+[epel]
+name=Extra Packages for Enterprise Linux 5 - $basearch
+#baseurl=http://download.fedoraproject.org/pub/epel/5/$basearch
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-5&arch=$basearch
+failovermethod=priority
+enabled=1
+gpgcheck=1
+gpgkey=http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL
+
+[epel-testing]
+name=Extra Packages for Enterprise Linux 5 - Testing - $basearch
+#baseurl=http://download.fedoraproject.org/pub/epel/testing/5/$basearch
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=testing-epel5&arch=$basearch
+failovermethod=priority
+enabled=1
+gpgcheck=1
+gpgkey=http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL
+

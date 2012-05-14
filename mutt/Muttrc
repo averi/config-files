@@ -1,0 +1,240 @@
+### MUTT config file ###
+
+# IMAP + SMTP
+
+# set imap_user = "andrea.veri@gmail.com"
+# set imap_pass = ""
+
+# set smtp_url = "smtp://andrea.veri@smtp.gmail.com:587"
+# set smtp_pass = ""
+
+# GMAIL
+
+set folder = "$HOME/.Mail"
+set spoolfile = "+INBOX"
+set postponed ="+[Gmail].Bozze"
+set record ="+[Gmail].Posta inviata"
+set trash = "+[Gmail].Cestino"
+
+# Some Other Details
+
+set realname="Andrea Veri"
+my_hdr From: Andrea Veri <andrea.veri@gmail.com>
+set use_from = yes
+set envelope_from = "yes"
+set edit_hdrs
+set mbox_type="Maildir"
+auto_view text/html
+alternative_order text/plain text/html
+
+# Hooks (for mail aliases), this trick will automatically change the 'To:' field when you'll receive a mail from one of these addresses.
+
+send-hook . my_hdr From: Andrea Veri <andrea.veri@gmail.com>
+send-hook . set hostname='gmail.com'
+
+send-hook (debian\.org) my_hdr From: Andrea Veri <and@debian.org>
+send-hook (debian\.org) set hostname='debian.org'
+
+send-hook (ubuntu\.com|canonical\.com|launchpad\.net) my_hdr From: Andrea Veri <av@ubuntu.com>
+send-hook (ubuntu\.com|canonical\.com|launchpad\.net) set hostname='ubuntu.com'
+
+send-hook (gnome\.org) my_hdr From: Andrea Veri <av@gnome.org>
+send-hook (gnome\.org) set hostname='gnome.org'
+
+# GPG + Mailboxes
+
+source $HOME/.mutt/mailboxes
+source $HOME/.mutt/GPG
+
+# Advanced Setup
+
+unset arrow_cursor
+unset beep
+unset beep_new
+unset menu_scroll
+unset mark_old
+unset collapse_unread
+unset mark_old
+unset ignore_list_reply_to
+
+set narrow_tree
+set help
+set copy=yes
+set delete=yes
+set move=no
+set forward_quote=yes
+set include=yes
+set timeout=10
+set reverse_name
+set ascii_chars=yes
+set reverse_realname=yes
+set reverse_alias=yes
+set fast_reply=yes
+set confirmappend=no
+set pager_index_lines=15
+set markers
+set smart_wrap
+set pager_context=5
+set pager_stop = yes
+set status_on_top
+set sort = 'threads'
+set strict_threads
+set sort_aux = 'last-date-received'
+set tilde
+set sig_dashes
+set editor="nano -r 70 -t"
+set header_cache="~/.mutt/headers"
+set query_command="goobook query '%s'"
+bind editor <Tab> complete-query
+macro index,pager a "<pipe-message>goobook add<return>" "Add the sender address to Google contacts"
+
+ignore *
+unignore From:
+unignore To:
+unignore Reply-To:
+unignore Mail-Followup-To:
+unignore Subject:
+unignore Date:
+unignore CC:
+unignore BCC:
+unignore X-Mailer:
+hdr_order From: Return-Path: \
+Reply-To: \
+Date: Subject: Importance:
+
+# Formating
+set compose_format="-- %v-- Compose  [Approximate Message Size: %l   Attachments: %a]%>-"
+set attach_format="%u%D%I %t%4n %T%.40d%> [%.7m/%.10M, %.6e%?C?, %C?, %s] "
+set alias_format="%4n %2f %t %-12a  %r"
+set status_format="-%r-%v--[%?M?%M/?%m msgs%?n?, %n new?%?d?, %d del?%?F?, %F flag?%?t?, %t tag?%?p?, %p postp?%?b?, %b inc?%?l?, %l?]--(%f)--%s-%>-%P-"
+set folder_format="%3C %t%N %F %-8.8u %-8.8g %8s %d %f"
+set message_format="%-.16n: %s"
+set pager_format="~~~~~~~~~ On %{%a, %d %b %Y} at [%[%H:%M]]: %s %|~"
+set attribution='On %{%a, %d %b %Y}, %n wrote:\n'
+set forward_format = "[%s]"
+
+# Sidebar (please make sure to install the mutt-patched package, otherwise mutt won't work as you expected it to)
+
+set sidebar_width=30
+set sidebar_visible=yes
+set sidebar_delim='|'
+
+color sidebar_new brightblue default
+
+bind index \CN sidebar-next
+bind index \CP sidebar-prev
+bind index \CO sidebar-open
+
+bind pager \CP sidebar-prev
+bind pager \CN sidebar-next
+bind pager \CO sidebar-open
+
+# Macros and such
+
+# get the url view working
+
+macro index \cb |urlview\n 'call urlview to extract URLs out of a message'
+macro pager \cb |urlview\n 'call urlview to extract URLs out of a message'
+
+# h will take you to the folder list in the index
+
+macro index h "c?t"
+
+# Dump all headers
+
+macro index p "<display-toggle-weed> <print-message> <display-toggle-weed> <exit>"
+macro pager p "<display-toggle-weed> <print-message> <display-toggle-weed>"
+
+# allow space characters in macros
+
+bind editor <space> noop
+
+# Colours
+
+color normal brightyellow default
+color error red default
+color tilde black default
+color message cyan default
+color markers red white
+color attachment white default
+color search brightmagenta default
+color status brightyellow black
+color indicator brightblack yellow
+color tree yellow default
+
+# Basic monocolor screen
+
+mono bold bold
+mono underline underline
+mono indicator reverse
+mono error bold
+
+# Index
+
+color index red default "~A" # all messages
+color index brightred default "~E" # expired messages
+color index blue default "~N" # new messages
+color index blue default "~O" # old messages
+color index brightmagenta default "~Q" # messages that have been replied to
+color index brightgreen default "~R" # read messages
+color index blue default "~U" # unread messages
+color index blue default "~U~$" # unread, unreferenced messages
+color index brightyellow default "~v" # messages part of a collapsed thread
+color index brightyellow default "~P" # messages from me
+color index cyan default "~p!~F" # messages to me
+color index cyan default "~N~p!~F" # new messages to me
+color index cyan default "~U~p!~F" # unread messages to me
+color index brightgreen default "~R~p!~F" # messages to me
+color index red default "~F" # flagged messages
+color index red default "~F~p" # flagged messages to me
+color index red default "~N~F" # new flagged messages
+color index red default "~N~F~p" # new flagged messages to me
+color index red default "~U~F~p" # new flagged messages to me
+color index black red "~D" # deleted messages
+color index brightcyan default "~v~(!~N)" # collapsed thread with no unread
+color index yellow default "~v~(~N)" # collapsed thread with some unread
+color index green default "~N~v~(~N)" # collapsed thread with unread parent
+color index red black "~v~(~F)!~N" # collapsed thread with flagged, no unread
+color index yellow black "~v~(~F~N)" # collapsed thread with some unread & flagged
+color index green black "~N~v~(~F~N)" # collapsed thread with unread parent & flagged
+color index green black "~N~v~(~F)" # collapsed thread with unread parent, no unread inside, but some flagged
+color index cyan black "~v~(~p)" # collapsed thread with unread parent, no unread inside, some to me directly
+color index yellow red "~v~(~D)" # thread with deleted (doesn't differentiate between all or partial)
+
+# Message Headers
+
+color hdrdefault brightgreen default
+color header blue default "^(From)"
+color header blue default "^(Subject)"
+
+# Body
+
+color quoted blue default
+color quoted1 cyan default
+color quoted2 yellow default
+color quoted3 red default
+color quoted4 brightred default
+
+color signature brightgreen default
+color bold black default
+color underline black default
+color normal default default
+
+# PGP
+
+color body red default "(BAD signature)"
+color body cyan default "(Good signature)"
+color body brightblack default "^gpg: Good signature .*"
+color body brightyellow default "^gpg: "
+color body brightyellow red "^gpg: BAD signature from.*"
+mono body bold "^gpg: Good signature"
+mono body bold "^gpg: BAD signature from.*"
+
+# URL Regex
+
+color body red default "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+
+
+# Border lines
+
+color body blue default "( *[-+=#*~_]){6,}"

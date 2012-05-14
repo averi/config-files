@@ -1,0 +1,16 @@
+options.timeout = 120
+options.subscribe = true
+
+account = IMAP {
+	   	server = 'imap.gmail.com',
+		username = 'andrea.veri@gmail.com',
+		password = '<%= gmailPassword %>',
+		ssl = 'ssl3'
+	}
+
+trash = account['[Gmail]/Cestino']:is_undeleted()
+account['[Gmail]/Cestino']:delete_messages(trash)
+
+spam = account['[Gmail]/Spam']:is_unanswered()
+account['[Gmail]/Spam']:delete_messages(spam)
+

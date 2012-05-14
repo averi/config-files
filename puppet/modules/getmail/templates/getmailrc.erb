@@ -1,0 +1,26 @@
+[retriever]
+type = SimpleIMAPSSLRetriever
+server = imap.gmail.com
+username = andrea.veri@gmail.com
+password = <%= gmailPassword %>
+
+mailboxes = ("INBOX", "[Gmail]/Posta inviata",
+    "apple", "apple/developer", "apple/ricevute",
+    "archives", "archives/centos", "archives/f-infrastructure", "archives/f-insight", "archives/f-l10n", "archives/nm-and", "archives/nm-vlegout", "archives/nm-rkavanagh",
+    "archives/nm-dfiloni", "archives/nm-pgreen", "archives/g-desktop", "archives/nm-avtobiff",
+    "debian", "debian/dak", "debian/bts", "debian/private", "debian/new-maintainer", "debian/pkg-mozext", "debian/pkg-mozext-git",
+    "fedora", "fedora/advisory-board", "fedora/nagios+puppet+members", "fedora/infrastructure", "fedora/hosted", "fedora/web", "fedora/bugzilla", "fedora/packagedb",
+    "fedora/scm-commits", "fedora/builds", "fedora/pkg-updates",
+    "gnome", "gnome/announce", "gnome/committee", "gnome/foundation", "gnome/infrastructure", "gnome/committee-private", "gnome/marketing", "gnome/web", "gnome/sysadmin",
+    "varie", "varie/uniud", "varie/ud-lug", "varie/mutt", "varie/ils-soci", "varie/ils-cafe",
+    "logs/window", "logs/spacewalk", "logs/button", "logs/mrlawrence")
+
+[destination] 
+type = Mboxrd
+path = ~/.getmail/gmail-backup.mbox
+
+[options]
+delivered_to = false
+received = false
+verbose = 2
+

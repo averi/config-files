@@ -1,0 +1,222 @@
+# LOCAL PATHNAME INFORMATION
+#
+# The queue_directory specifies the location of the Postfix queue.
+# This is also the root directory of Postfix daemons that run chrooted.
+# See the files in examples/chroot-setup for setting up Postfix chroot
+# environments on different UNIX systems.
+#
+queue_directory = /var/spool/postfix
+
+# The command_directory parameter specifies the location of all
+# postXXX commands.
+
+command_directory = /usr/sbin
+
+# The daemon_directory parameter specifies the location of all Postfix
+# daemon programs (i.e. programs listed in the master.cf file). This
+# directory must be owned by root.
+
+daemon_directory = /usr/libexec/postfix
+
+# The data_directory parameter specifies the location of Postfix-writable
+# data files (caches, random numbers). This directory must be owned
+# by the mail_owner account (see below).
+
+data_directory = /var/lib/postfix
+
+# QUEUE AND PROCESS OWNERSHIP
+#
+# The mail_owner parameter specifies the owner of the Postfix queue
+# and of most Postfix daemon processes.  Specify the name of a user
+# account THAT DOES NOT SHARE ITS USER OR GROUP ID WITH OTHER ACCOUNTS
+# AND THAT OWNS NO OTHER FILES OR PROCESSES ON THE SYSTEM.  In
+# particular, don't specify nobody or daemon. PLEASE USE A DEDICATED
+# USER.
+
+mail_owner = postfix
+
+# The mydomain parameter specifies the local internet domain name.
+# The default is to use $myhostname minus the first component.
+# $mydomain is used as a default value for many other configuration
+# parameters.
+
+mydomain = sweetrevenge.no-ip.org
+
+# RECEIVING MAIL
+
+# The inet_interfaces parameter specifies the network interface
+# addresses that this mail system receives mail on.  By default,
+# the software claims all active interfaces on the machine. The
+# parameter also controls delivery of mail to user@[ip.address].
+#
+# See also the proxy_interfaces parameter, for network addresses that
+# are forwarded to us via a proxy or network address translator.
+
+inet_interfaces = all
+
+# Enable IPv4, and IPv6 if supported
+
+inet_protocols = all
+
+# The mydestination parameter specifies the list of domains that this
+# machine considers itself the final destination for.
+#
+# These domains are routed to the delivery agent specified with the
+# local_transport parameter setting. By default, that is the UNIX
+# compatible delivery agent that lookups all recipients in /etc/passwd
+# and /etc/aliases or their equivalent.
+#
+# The default is $myhostname + localhost.$mydomain.  On a mail domain
+# gateway, you should also include $mydomain.
+#
+# Do not specify the names of virtual domains - those domains are
+# specified elsewhere (see VIRTUAL_README).
+#
+# Do not specify the names of domains that this machine is backup MX
+# host for. Specify those names via the relay_domains settings for
+# the SMTP server, or use permit_mx_backup if you are lazy (see
+# STANDARD_CONFIGURATION_README).
+#
+# The local machine is always the final destination for mail addressed
+# to user@[the.net.work.address] of an interface that the mail system
+# receives mail on (see the inet_interfaces parameter).
+#
+# Specify a list of host or domain names, /file/name or type:table
+# patterns, separated by commas and/or whitespace. A /file/name
+# pattern is replaced by its contents; a type:table is matched when
+# a name matches a lookup key (the right-hand side is ignored).
+# Continue long lines by starting the next line with whitespace.
+#
+# See also below, section "REJECTING MAIL FOR UNKNOWN LOCAL USERS".
+#
+
+mydestination = $myhostname, localhost.$mydomain, localhost
+
+# The unknown_local_recipient_reject_code specifies the SMTP server
+# response code when a recipient domain matches $mydestination or
+# ${proxy,inet}_interfaces, while $local_recipient_maps is non-empty
+# and the recipient address or address local-part is not found.
+#
+# The default setting is 550 (reject mail) but it is safer to start
+# with 450 (try again later) until you are certain that your
+# local_recipient_maps settings are OK.
+
+unknown_local_recipient_reject_code = 550
+
+# ALIAS DATABASE
+#
+# The alias_maps parameter specifies the list of alias databases used
+# by the local delivery agent. The default list is system dependent.
+#
+# On systems with NIS, the default is to search the local alias
+# database, then the NIS alias database. See aliases(5) for syntax
+# details.
+# 
+# If you change the alias database, run "postalias /etc/aliases" (or
+# wherever your system stores the mail alias file), or simply run
+# "newaliases" to build the necessary DBM or DB file.
+#
+# It will take a minute or so before changes become visible.  Use
+# "postfix reload" to eliminate the delay.
+
+alias_maps = hash:/etc/aliases
+
+# The alias_database parameter specifies the alias database(s) that
+# are built with "newaliases" or "sendmail -bi".  This is a separate
+# configuration parameter, because alias_maps (see above) may specify
+# tables that are not necessarily all under control by Postfix.
+
+alias_database = hash:/etc/aliases
+
+# DEBUGGING CONTROL
+#
+# The debug_peer_level parameter specifies the increment in verbose
+# logging level when an SMTP client or server host name or address
+# matches a pattern in the debug_peer_list parameter.
+
+debug_peer_level = 2
+
+# The debugger_command specifies the external command that is executed
+# when a Postfix daemon program is run with the -D option.
+#
+# Use "command .. & sleep 5" so that the debugger can attach before
+# the process marches on. If you use an X-based debugger, be sure to
+# set up your XAUTHORITY environment variable before starting Postfix.
+
+debugger_command =
+	 PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin
+	 ddd $daemon_directory/$process_name $process_id & sleep 5
+
+# INSTALL-TIME CONFIGURATION INFORMATION
+#
+# The following parameters are used when installing a new Postfix version.
+# 
+# sendmail_path: The full pathname of the Postfix sendmail command.
+# This is the Sendmail-compatible mail posting interface.
+
+sendmail_path = /usr/sbin/sendmail.postfix
+
+# newaliases_path: The full pathname of the Postfix newaliases command.
+# This is the Sendmail-compatible command to build alias databases.
+
+newaliases_path = /usr/bin/newaliases.postfix
+
+# mailq_path: The full pathname of the Postfix mailq command.  This
+# is the Sendmail-compatible mail queue listing command.
+
+mailq_path = /usr/bin/mailq.postfix
+
+# setgid_group: The group for mail submission and queue management
+# commands.  This must be a group name with a numerical group ID that
+# is not shared with other accounts, not even with the Postfix account.
+
+setgid_group = postdrop
+
+# html_directory: The location of the Postfix HTML documentation.
+
+html_directory = no
+
+# manpage_directory: The location of the Postfix on-line manual pages.
+
+manpage_directory = /usr/share/man
+
+# sample_directory: The location of the Postfix sample configuration files.
+# This parameter is obsolete as of Postfix 2.1.
+
+sample_directory = /usr/share/doc/postfix-2.6.6/samples
+
+# readme_directory: The location of the Postfix README files.
+
+readme_directory = /usr/share/doc/postfix-2.6.6/README_FILES
+
+# Relayhost
+relayhost = [smtp.gmail.com]:587
+
+# TLS
+smtp_tls_loglevel = 1
+smtp_tls_per_site = hash:/etc/postfix/smtp_tls_per_site
+smtp_tls_CAfile = /etc/postfix/ssl/cacert.pem
+smtp_tls_cert_file = /etc/postfix/ssl/sweetrevenge.no-ip.org.crt
+smtp_tls_key_file = /etc/postfix/ssl/sweetrevenge.no-ip.org.key
+smtp_tls_session_cache_database = btree:/var/run/smtp_tls_session_cache
+
+smtp_use_tls = yes
+smtpd_tls_CAfile = /etc/postfix/ssl/cacert.pem
+smtpd_tls_cert_file = /etc/postfix/ssl/sweetrevenge.no-ip.org.crt
+smtpd_tls_key_file = /etc/postfix/ssl/sweetrevenge.no-ip.org.key
+smtpd_tls_received_header = yes
+smtpd_tls_session_cache_database = btree:/var/run/smtpd_tls_session_cache
+smtpd_use_tls = yes
+tls_random_source = dev:/dev/urandom
+smtpd_recipient_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_unauth_destination
+
+# SASL
+smtpd_sasl_auth_enable = no
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtpd_sasl_local_domain = $myhostname
+smtp_sasl_security_options = noanonymous
+smtp_sasl_tls_security_options = noanonymous

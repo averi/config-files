@@ -1,0 +1,45 @@
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+
+# Allow unlimited traffic on eth0
+-A INPUT -i eth0 -j ACCEPT
+-A OUTPUT -o eth0 -j ACCEPT
+
+# Allow traffic on lo
+-A INPUT -i lo -j ACCEPT
+
+# Allow unlimited traffic from trusted IP addresses
+-A INPUT -s 192.168.1.0/24 -j ACCEPT
+
+<% if environment == "lockedbox" %>
+
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 21 -j REJECT
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 22 -j REJECT
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 222 -j REJECT
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 80 -j REJECT
+
+<% end -%>
+
+<% if environment == "server" %>
+
+# Allow HTTP, SSH, SMTP, NFS
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 2222 -j ACCEPT
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 25 -j ACCEPT
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 80 -j ACCEPT
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 48620 -j ACCEPT
+-A INPUT -m state --state NEW,ESTABLISHED -m udp -p udp --dport 48620 -j ACCEPT
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 48621 -j ACCEPT
+-A INPUT -m state --state NEW,ESTABLISHED -m udp -p udp --dport 48620 -j ACCEPT
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 48622 -j ACCEPT
+-A INPUT -m state --state NEW,ESTABLISHED -m udp -p udp --dport 48620 -j ACCEPT
+-A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 48623 -j ACCEPT
+-A INPUT -m state --state NEW,ESTABLISHED -m udp -p udp --dport 48620 -j ACCEPT
+
+<% end -%>
+
+COMMIT

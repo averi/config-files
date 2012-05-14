@@ -1,0 +1,4 @@
+# Please remember to rename this file making it hidden. (i.e mailcap --> .mailcap)
+
+text/html;                      links %s; nametemplate=%s.html
+text/html;                      links -dump %s; nametemplate=%s.html; copiousoutput

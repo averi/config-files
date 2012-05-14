@@ -1,0 +1,2 @@
+MAILTO=and@debian.org
+*/5 * * * * and		cd $HOME/public_html && { rsync -avz --recursive --delete --links --exclude "unstable/aptcache" --exclude "unstable/build" --exclude "unstable/gpg" --exclude "unstable/unstable" -e "ssh -q -i $HOME/.ssh/rsync" mrlawrence:debomatic . ; } > /dev/null

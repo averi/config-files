@@ -1,0 +1,21 @@
+# Offlineimap will automatically detect all your Gmail folders (labels) so you don't have to specify them manually!
+
+[general]
+ui = basic 
+accounts = GMail
+
+[Account GMail]
+localrepository = Local
+remoterepository = Remote
+
+[Repository Local]
+type = Maildir
+localfolders = ~/.Mail
+
+[Repository Remote]
+type = Gmail 
+remotehost = imap.gmail.com
+remoteuser = example@gmail.com
+remotepass = yourpassword
+realdelete = no
+ssl = yes

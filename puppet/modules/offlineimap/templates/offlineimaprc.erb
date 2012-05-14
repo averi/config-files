@@ -1,0 +1,20 @@
+[general]
+ui = basic 
+accounts = GMail
+#socktimeout = 60
+
+[Account GMail]
+localrepository = Local
+remoterepository = Remote
+
+[Repository Local]
+type = Maildir
+localfolders = ~/.Mail
+
+[Repository Remote]
+type = Gmail 
+remotehost = imap.gmail.com
+remoteuser = andrea.veri@gmail.com
+remotepass = <%= gmailPassword %>
+realdelete = no
+ssl = yes

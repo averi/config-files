@@ -1,0 +1,4 @@
+MAILTO=and@debian.org
+*/10 * * * * and	imapfilter -c $HOME/.imapfilter/imapfilter.lua -l $HOME/.imapfilter/imapfilter-errors.log >> $HOME/.imapfilter/imapfilter-processing.log
+0 * * * * and		$HOME/.getmail/getmail_run.sh > /dev/null 2>&1
+*/5 * * * * and		offlineimap -c .offlineimaprc -l $HOME/.offlineimap.log > /dev/null

@@ -1,0 +1,2 @@
+0 */2 * * * and 	$HOME/Backup/bin/mutt+getmail+puppet-backup.sh > /dev/null
+0 */2 * * * and		$HOME/Backup/bin/rsync-gshellz-backup.sh > /dev/null

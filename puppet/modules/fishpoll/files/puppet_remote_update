@@ -1,0 +1,15 @@
+#!/bin/bash
+# Update Puppetmaster by grabbing the latest content from Git.             
+
+PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
+FOLDER="/home/and/puppetgit"
+
+if [ -d "${FOLDER}" ]; then
+    cd "${FOLDER}"
+else
+    echo "Unable to access the given directory. Failing."
+    exit 1
+fi
+
+git pull
+

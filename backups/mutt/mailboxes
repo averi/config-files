@@ -1,0 +1,37 @@
+# For Gmail labels and sub-labels the syntax is 'main-label-name.sub-label-name'. (i.e animals.dogs)
+
+mailboxes !
+mailboxes =[Gmail].Sent\ Mail/
+mailboxes =[Gmail].Trash
+mailboxes =archives
+mailboxes =archives.centos
+mailboxes =archives.f-insight
+mailboxes =archives.f-infrastructure
+mailboxes =archives.f-l10n
+mailboxes =archives.nm-and
+mailboxes =archives.nm-vlegout
+mailboxes =archives.varie
+mailboxes =debian
+mailboxes =debian.bts
+mailboxes =debian.dak
+mailboxes =debian.new-maintainer
+mailboxes =debian.pkg-mozext
+mailboxes =debian.pkg-mozext-git
+mailboxes =debian.private
+mailboxes =gnome
+mailboxes =gnome.announce
+mailboxes =gnome.desktop
+mailboxes =gnome.committee
+mailboxes =gnome.committee-private
+mailboxes =gnome.infrastructure
+mailboxes =gnome.foundation
+mailboxes =logs
+mailboxes =logs.spacewalk
+mailboxes =logs.window
+mailboxes =ubuntu
+mailboxes =ubuntu.devel-announce
+mailboxes =ubuntu.motu
+mailboxes =ubuntu.news
+mailboxes =ubuntu.devel-discuss
+mailboxes =uniud
+mailboxes =ud-lug

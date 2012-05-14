@@ -1,0 +1,56 @@
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+# Debian specific:  Specifying a file name will cause the first
+# line of that file to be used as the name.  The Debian default
+# is /etc/mailname.
+#myorigin = /etc/mailname
+
+smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+readme_directory = no
+
+myhostname = mrlawrence
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+virtual_alias_maps = hash:/etc/postfix/virtual
+mydestination = mrlawrence localhost.localdomain localhost
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = loopback-only
+
+# Relayhost
+relayhost = [smtp.gmail.com]:587
+
+# TLS
+smtp_tls_loglevel = 1
+smtp_tls_per_site = hash:/etc/postfix/smtp_tls_per_site
+smtp_tls_CAfile = /etc/postfix/ssl/cacert.pem
+smtp_tls_cert_file = /etc/postfix/ssl/sweetrevenge.no-ip.org.crt
+smtp_tls_key_file = /etc/postfix/ssl/sweetrevenge.no-ip.org.key
+smtp_tls_session_cache_database = btree:/var/run/smtp_tls_session_cache
+
+smtp_use_tls = yes
+smtpd_tls_CAfile = /etc/postfix/ssl/cacert.pem
+smtpd_tls_cert_file = /etc/postfix/ssl/sweetrevenge.no-ip.org.crt
+smtpd_tls_key_file = /etc/postfix/ssl/sweetrevenge.no-ip.org.key
+smtpd_tls_received_header = yes
+smtpd_tls_session_cache_database = btree:/var/run/smtpd_tls_session_cache
+smtpd_use_tls = yes
+tls_random_source = dev:/dev/urandom
+smtpd_recipient_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_unauth_destination
+
+# SASL
+smtpd_sasl_auth_enable = no
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtpd_sasl_local_domain = $myhostname
+smtp_sasl_security_options = noanonymous
+smtp_sasl_tls_security_options = noanonymous
