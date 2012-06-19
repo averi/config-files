@@ -116,7 +116,7 @@ sub cmd_color {
   $op = lc $op;
 
   if (!$op) {
-    Irssi::print ("No operation given");
+    Irssi::print ("save set clear list preview help\nSay '/color help' for a more in-depth explanation");
   } elsif ($op eq "save") {
     save_colors;
   } elsif ($op eq "set") {
@@ -146,6 +146,8 @@ sub cmd_color {
     foreach my $i (2..14) {
       Irssi::print (chr (3) . "$i" . "Color #$i");
     }
+  } elsif ($op eq "help") {
+    Irssi::print ("\nCommands:\nsave\t\t\t\t(Save Set Nick Colors)\nset <nick> <#color>\t(Set Color for Specific Nick)\nclear <nick>\t\t\t(Clears Set Color for Nick)\nlist\t\t\t\t(Lists Set Nick Colors)\npreview\t\t\t\t(Previews the Color Pallette and Number)\nhelp\t\t\t\t(Self Explanatory)\n");
   }
 }
 
